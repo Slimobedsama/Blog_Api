@@ -1,7 +1,12 @@
 const express = require('express');
+const dotenv = require('dotenv');
+dotenv.config();
+const db = require('./config/db');
+
 const app = express();
+PORT = process.env.PORT;
+db()
 
 
 
-PORT = 7000;
 app.listen(PORT, () => console.log(`Server on ${PORT}`));
