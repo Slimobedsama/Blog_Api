@@ -27,3 +27,13 @@ exports.createBlog = async(req, res) => {
         res.status(400).json({msg: 'Bad Request'});
     }
 }
+
+exports.updateBlogPost = async(req, res) => {
+    const id = req.params.id
+    try {
+        const update = await Blog.findByIdAndUpdate(id, req.body);
+        res.status(201).json({msg: 'Blog Update Successful', update});
+    } catch(err) {
+        res.status(400).json({msg: 'Unable to update'});
+    }
+}
