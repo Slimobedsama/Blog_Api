@@ -9,6 +9,16 @@ exports.getAllBlogs = async(req, res) => {
     }
 }
 
+exports.getSingleBlog = async(req, res) => {
+    const id = req.params.id
+    try {
+        const oneBlog = await Blog.findById(id)
+        res.status(200).json(oneBlog);
+    } catch(err) {
+        res.status(400).json({msg: `Invalid requested id ${id}`});
+    }
+}
+
 exports.createBlog = async(req, res) => {
     try {
         const newBlog = await Blog.create(req.body);
