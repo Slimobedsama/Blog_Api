@@ -37,3 +37,13 @@ exports.updateBlogPost = async(req, res) => {
         res.status(400).json({msg: 'Unable to update'});
     }
 }
+
+exports.removeBlog = async(req, res) => {
+    const id = req.params.id;
+    try {
+        const delBlog = await Blog.findByIdAndDelete(id);
+        res.status(200).json({msg: `Blog with the id ${id} deleted.`, delBlog});
+    } catch(err) {
+        res.status(400).json({msg: `Blog with the id ${id} not found.`});
+    }
+}
