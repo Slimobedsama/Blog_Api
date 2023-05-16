@@ -5,7 +5,7 @@ exports.getAllBlogs = async(req, res) => {
         const allBlogs = await Blog.find().sort({author: 'asc'});
         res.status(200).json(allBlogs);
     } catch(err) {
-        res.status(500).json({msg: 'Internal server error'});
+        res.status(500).json({error: 'Internal server error'});
     }
 }
 
@@ -13,28 +13,35 @@ exports.getSingleBlog = async(req, res) => {
     const id = req.params.id
     try {
         const oneBlog = await Blog.findById(id)
-        res.status(200).json(oneBlog);
+        if(!oneBlog) {
+            throw new Error(`Blog with id ${id} not found.`);
+        }
+        return res.status(200).json({message: oneBlog});
+        
     } catch(err) {
-        res.status(400).json({msg: `Invalid requested id ${id}`});
+        return res.status(400).json({error: err.message});
     }
 }
 
 exports.createBlog = async(req, res) => {
     try {
         const newBlog = await Blog.create(req.body);
-        res.status(201).json({msg: 'Blog Created', newBlog});
+        res.status(201).json({message: 'Blog Created', newBlog});
     } catch(err) {
-        res.status(400).json({msg: 'Bad Request'});
+        res.status(400).json({error: 'Bad Request'});
     }
 }
 
 exports.updateBlogPost = async(req, res) => {
     const id = req.params.id
     try {
-        const update = await Blog.findByIdAndUpdate(id, req.body);
-        res.status(201).json({msg: 'Blog Update Successful', update});
+        const update = await Blog.findByIdAndUpdate(id, req.body, {new: true});
+        if(!update) {
+            throw new Error(`Blog with id ${id} cannot be found...`);
+        }
+        return res.status(201).json({message: 'Blog Update Successful', update});
     } catch(err) {
-        res.status(400).json({msg: 'Unable to update'});
+        return res.status(400).json({error: err.message});
     }
 }
 
@@ -42,8 +49,11 @@ exports.removeBlog = async(req, res) => {
     const id = req.params.id;
     try {
         const delBlog = await Blog.findByIdAndDelete(id);
-        res.status(200).json({msg: `Blog with the id ${id} deleted.`, delBlog});
+        if(!delBlog) {
+            throw new Error(`Blog with id ${id} cannot be found...`);
+        }
+        res.status(200).json({message: `Blog with the id ${id} deleted.`, delBlog});
     } catch(err) {
-        res.status(400).json({msg: `Blog with the id ${id} not found.`});
+        res.status(400).json({error: err.message});
     }
 }
