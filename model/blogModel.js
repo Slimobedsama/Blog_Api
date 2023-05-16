@@ -16,9 +16,7 @@ const blogSchema = new Schema({
     body: {
         type: String,
         required: true
-    },
-    comments: [{name: String, body: String, required: false}],
-    likes: [Number]
+    }
 }, {timestamps: true});
 
 const Blog = mongoose.model('Blog', blogSchema);
