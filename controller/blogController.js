@@ -1,4 +1,5 @@
 const Blog = require('../model/blogModel');
+const validator = require('validator');
 
 exports.getAllBlogs = async(req, res) => {
     try {
@@ -24,11 +25,22 @@ exports.getSingleBlog = async(req, res) => {
 }
 
 exports.createBlog = async(req, res) => {
+    const {author, title, snippet, body} = req.body;
     try {
+        if(validator.isEmpty(author)) {
+            throw new Error('Author is required');
+        } else if(validator.isEmpty(title)) {
+            throw new Error('Enter Blog Title');
+        } else if(validator.isEmpty(snippet)) {
+            throw new Error('Enter Blog Snippet');
+        } else if(validator.isEmpty(body)) {
+            throw new Error('Enter Blog Body');
+        }
+        
         const newBlog = await Blog.create(req.body);
         res.status(201).json({message: 'Blog Created', newBlog});
     } catch(err) {
-        res.status(400).json({error: 'Bad Request'});
+        res.status(400).json({error: err.message});
     }
 }
 
