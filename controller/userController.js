@@ -27,7 +27,7 @@ exports.signup = async(req, res, next) => {
             return res.json({msg: 'Email already exist'});
         } else if(validator.isEmpty(firstName)) {
             throw new Error('First Name is Required');
-        } else if(validator.isEmpty(lasstName)) {
+        } else if(validator.isEmpty(lastName)) {
             throw new Error('Last Name is Required');
         } else if(validator.isEmpty(userName)) {
             throw new Error('Username is Required');

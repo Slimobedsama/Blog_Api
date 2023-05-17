@@ -14,7 +14,7 @@ app.use(express.json());
 // PARSES ENCONDED URL DATA
 app.use(express.urlencoded({extended: true}));
 //MIDDLEWARE FOR DATA LOGGER
-app.use(morgan('combined'));
+app.use(morgan('dev'));
 
 app.use('/api/blogs', blogRoute);
 app.use('/api/user', userRoute);
