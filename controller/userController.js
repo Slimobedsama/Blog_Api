@@ -1,7 +1,7 @@
 const User = require('../model/userModel');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-// const { findByIdAndUpdate } = require('../model/blogModel');
+const validator = require('validator');
 
 
 const genToken = (id) => {
@@ -21,10 +21,28 @@ exports.allUsers = async(req, res, next) => {
 exports.signup = async(req, res, next) => {
     const {firstName, lastName, userName, phoneNo, email, password} = req.body;
     try {
+        // USER VALIDATIONS
         const foundEmail = await User.findOne({email});
         if(foundEmail) {
             return res.json({msg: 'Email already exist'});
-        } 
+        } else if(validator.isEmpty(firstName)) {
+            throw new Error('First Name is Required');
+        } else if(validator.isEmpty(lasstName)) {
+            throw new Error('Last Name is Required');
+        } else if(validator.isEmpty(userName)) {
+            throw new Error('Username is Required');
+        } else if(validator.isEmpty(firstName)) {
+            throw new Error('First Name is Required');
+        } else if(!validator.isMobilePhone(phoneNo, ['en-NG', 'en-GB'])) {
+            throw new Error('Enter A Valid Mobile Number');
+        } else if(!validator.isEmail(email)) {
+            throw new Error('Enter A Valid Email Address');
+        } else if(validator.isEmpty(firstName)) {
+            throw new Error('First Name is Required');
+        } else if(!validator.isStrongPassword(password, {minLength: 6, minSymbols: 0})) {
+            throw new Error('A Minimum Of 6 Characters With At Least 1 Uppercase, 1 Lowercase & 1 Number');
+        }
+
         const hashPassword = await bcrypt.hash(password, 12);
         const newUser = await User.create({
             firstName: req.body.firstName,
@@ -35,10 +53,9 @@ exports.signup = async(req, res, next) => {
             password: hashPassword
         });
         const token = genToken(newUser._id);
-        res.status(201).json({msg: 'Successful registration', token, newUser});
+        res.status(201).json({message: 'Successful Registration', token, newUser: User._id});
     } catch (err) {
-        // res.status(400).json({msg: 'Bad request'});
-        console.log(err)
+        res.status(400).json({errors: err.message});
     }
     next()
 }
