@@ -53,7 +53,7 @@ exports.signup = async(req, res, next) => {
             password: hashPassword
         });
         const token = genToken(newUser._id);
-        res.status(201).json({message: 'Successful Registration', token, newUser: User._id});
+        res.status(201).json({message: 'Successful Registration', token, Users: newUser._id});
     } catch (err) {
         res.status(400).json({errors: err.message});
     }
