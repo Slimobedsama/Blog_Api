@@ -11,9 +11,9 @@ const genToken = (id) => {
 exports.allUsers = async(req, res, next) => {
     try {
         const users = await User.find().sort({firstName: 'asc'});
-        res.json(users);
+        res.status(200).json(users);
     } catch (err) {
-      res.status(500).json({msg: 'Server error'});  
+      res.status(500).json({message: 'Server error'});  
     }
     next();
 }
