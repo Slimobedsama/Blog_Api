@@ -60,7 +60,7 @@ exports.signup = async(req, res, next) => {
     next()
 }
 
-exports.login = async(req, res) => {
+exports.login = async(req, res, next) => {
     const {email, userName, password} = req.body;
    try {
     const foundEmail = await User.findOne({email});
@@ -76,8 +76,9 @@ exports.login = async(req, res) => {
     }
     return res.status(400).json({msg: 'Invalid email or username'});
    } catch (err) {
-    return res.status(400).json({msg: 'User does not exist'});
+        res.status(400).json({msg: 'User does not exist'});
    }
+   next();
 }
 
 exports.getSingleUser = async(req, res, next) => {
@@ -91,7 +92,7 @@ exports.getSingleUser = async(req, res, next) => {
     next();
 }
 
-exports.updateUser = async(req, res) => {
+exports.updateUser = async(req, res, next) => {
     const id = req.params.id;
     const {firstName, lastName, userName, phoneNo} = req.body;
     try {
@@ -102,6 +103,7 @@ exports.updateUser = async(req, res) => {
             return res.status(200).json({msg: 'Update Successful', updateData});
         }
     } catch (err) {
-       return res.status(400).json({msg: 'Bad Request'});
+        res.status(400).json({msg: 'Bad Request'});
     }
+    next();
 }
