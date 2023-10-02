@@ -5,6 +5,7 @@ const db = require('./config/db');
 const morgan = require('morgan');
 const blogRoute = require('./routes/blogRoute');
 const userRoute = require('./routes/userRoute');
+const commentRoute = require('./routes/commentRoute');
 
 const app = express();
 PORT = process.env.PORT;
@@ -17,6 +18,7 @@ app.use(morgan('dev'));
 
 app.use('/api/blogs', blogRoute);
 app.use('/api/user', userRoute);
+app.use('/api/comment', commentRoute);
 
 db().then((result)=> app.listen(PORT, () => console.log(`Server on ${PORT}`)))
 .catch((err)=> console.log(err));
