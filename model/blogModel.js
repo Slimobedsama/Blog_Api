@@ -16,7 +16,8 @@ const blogSchema = new Schema({
     body: {
         type: String,
         required: true
-    }
+    },
+    comment: [{type :Schema.Types.ObjectId, ref: 'Comment'}]
 }, {timestamps: true});
 
 const Blog = mongoose.model('Blog', blogSchema);
