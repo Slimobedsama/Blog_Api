@@ -9,3 +9,19 @@ exports.getAll = async(req, res)=> {
         res.status(500).json({ error: err.message});
     }
 }
+
+exports.create = async(req, res, next)=> {
+    const { lastName, firstName, email, password } = req.body;
+    try {
+        const encryptedPassword = await bcrypt.hash(password, 12);
+        const createAdmin = await Admin.create({
+            lastName: lastName,
+            firstName: firstName,
+            email: email,
+            password: encryptedPassword
+        });
+        res.status(201).json({ message: 'Successful Created...', data: createAdmin });
+    } catch (err) {
+        res.status(400).json({ error: err.message });
+    }
+}
