@@ -1,5 +1,6 @@
 const Admin = require('../model/adminModel');
 const bcrypt = require("bcrypt");
+const { adminGenToken } = require('../utils/genToken');
 
 exports.getAll = async(req, res)=> {
     try {
@@ -20,7 +21,8 @@ exports.create = async(req, res, next)=> {
             email: email,
             password: encryptedPassword
         });
-        res.status(201).json({ message: 'Successful Created...', data: createAdmin });
+        const token = adminGenToken(createAdmin._id);
+        res.status(201).json({ message: 'Successfully Created...', token, data: createAdmin });
     } catch (err) {
         res.status(400).json({ error: err.message });
     }
