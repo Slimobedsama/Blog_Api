@@ -1,12 +1,7 @@
 const User = require('../model/userModel');
 const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
 const validator = require('validator');
-
-
-const genToken = (id) => {
-    return jwt.sign({id}, process.env.JWT_SECRET, {expiresIn: process.env.EXPIRES_IN});
-}
+const { genToken } = require('../utils/genToken');
 
 exports.allUsers = async(req, res, next) => {
     try {
