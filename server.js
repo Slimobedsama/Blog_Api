@@ -3,6 +3,7 @@ const dotenv = require('dotenv');
 dotenv.config();
 const db = require('./config/db');
 const morgan = require('morgan');
+const adminRoute = require('./routes/adminRoute');
 const blogRoute = require('./routes/blogRoute');
 const userRoute = require('./routes/userRoute');
 const commentRoute = require('./routes/commentRoute');
@@ -16,6 +17,7 @@ app.use(express.urlencoded({extended: true}));
 //MIDDLEWARE FOR DATA LOGGER
 app.use(morgan('dev'));
 
+app.use('/api/admin', adminRoute);
 app.use('/api/blogs', blogRoute);
 app.use('/api/user', userRoute);
 app.use('/api/comment', commentRoute);
