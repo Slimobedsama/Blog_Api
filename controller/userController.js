@@ -1,7 +1,7 @@
 const User = require('../model/userModel');
 const bcrypt = require('bcrypt');
 const validator = require('validator');
-const { genToken } = require('../utils/genToken');
+const { userToken } = require('../utils/genToken');
 
 exports.allUsers = async(req, res, next) => {
     try {
@@ -47,7 +47,7 @@ exports.signup = async(req, res, next) => {
             email: req.body.email,
             password: hashPassword
         });
-        const token = genToken(newUser._id);
+        const token = userToken(newUser._id);
         res.status(201).json({message: 'Successful Registration', token, Users: newUser._id});
     } catch (err) {
         res.status(400).json({errors: err.message});
@@ -64,7 +64,7 @@ exports.login = async(req, res, next) => {
     if(checkUser) {
        const checkPassword = await bcrypt.compare(password, checkUser.password);
         if(checkPassword) {
-            const token = genToken(checkUser._id)
+            const token = userToken(checkUser._id)
             return res.status(200).json({msg: 'Login successfully', token, data: checkUser});
         }
         return res.status(400).json({msg: 'Invalid password'});
