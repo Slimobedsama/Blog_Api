@@ -27,3 +27,21 @@ exports.create = async(req, res, next)=> {
         res.status(400).json({ error: err.message });
     }
 }
+
+exports.access = async(req, res, next)=> {
+    const { email, password } = req.body;
+    try {
+        const checkEmail = await Admin.findOne({ email });
+        if(checkEmail) {
+            const CheckPassword = await bcrypt.compare(password, checkEmail.password);
+            if(CheckPassword) {
+                const token = adminToken(Admin._id);
+                return res.status(200).json({ message: 'Success', status: 'Logged In', token, data: checkEmail._id });
+            }
+            throw new Error('Incorrect Password');
+        }
+        throw new Error('Email Not Found');
+    } catch (err) {
+        res.status(404).json({ status: 'Failed', error: err.message });
+    }
+}
