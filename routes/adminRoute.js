@@ -5,6 +5,7 @@ const { adminValidateSignup, adminEditValidation } = require('../utils/validatio
 
 
 Router.get('/', adminController.getAll);
+Router.get('/:id', adminController.getOne);
 Router.post('/signup', adminValidateSignup, adminController.create);
 Router.post('/login', adminController.access);
 Router.patch('/:id', adminEditValidation, adminController.edit);

@@ -30,6 +30,20 @@ exports.create = async(req, res, next)=> {
     next();
 }
 
+exports.getOne = async(req, res, next)=> {
+    const id = req.params.id;
+    try {
+        const singleAdmin = await Admin.findById(id);
+        if(singleAdmin) {
+            return res.status(200).json({ message: 'Success', data: singleAdmin });
+        }
+        throw new Error(`Admin with id of ${ id } not found`);
+    } catch (err) {
+        res.status(404).json({ message: 'Failed', error: err.message });
+    }
+    next();
+}
+
 exports.access = async(req, res, next)=> {
     const { email, password } = req.body;
     try {
