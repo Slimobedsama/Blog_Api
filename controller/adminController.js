@@ -2,13 +2,14 @@ const Admin = require('../model/adminModel');
 const bcrypt = require("bcrypt");
 const { adminToken } = require('../utils/genToken');
 
-exports.getAll = async(req, res)=> {
+exports.getAll = async(req, res, next)=> {
     try {
         const allAdmin = await Admin.find();
         res.status(200).json({ message: 'Successful', data: allAdmin});
     } catch (err) {
         res.status(500).json({ error: err.message});
     }
+    next();
 }
 
 exports.create = async(req, res, next)=> {
@@ -26,6 +27,7 @@ exports.create = async(req, res, next)=> {
     } catch (err) {
         res.status(400).json({ error: err.message });
     }
+    next();
 }
 
 exports.access = async(req, res, next)=> {
@@ -44,4 +46,24 @@ exports.access = async(req, res, next)=> {
     } catch (err) {
         res.status(404).json({ status: 'Failed', error: err.message });
     }
+    next();
+}
+
+exports.edit = async(req, res, next)=> {
+    const id = req.params.id;
+    const { lastName, firstName } = req.body;
+    try {
+        const modify = await Admin.findByIdAndUpdate(id, { lastName, firstName }, { new: true });
+        if(modify) {
+            if(lastName || firstName) {
+                return res.status(200).json({ message: 'Success', data: modify });
+            }
+            throw new Error('Enter the required')
+        }
+        throw new Error(`Admin with the id ${ id } not found`);
+    } catch (err) {
+        console.log(err.message);
+        res.status(404).json({ error: err.message });
+    }
+    next();
 }

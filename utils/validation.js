@@ -17,4 +17,15 @@ const adminValidateSignup =
     }
 ];
 
-module.exports = adminValidateSignup;
+const adminEditValidation = 
+[
+    body('lastName').notEmpty().withMessage('Enter Last Name'),
+    body('firstName').notEmpty().withMessage('Enter First Name'),
+    (req, res, next)=> {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array().map(err=> err.msg) });
+        return next();
+    }
+];
+
+module.exports = { adminValidateSignup, adminEditValidation };
