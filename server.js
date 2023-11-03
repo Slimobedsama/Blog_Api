@@ -14,6 +14,8 @@ PORT = process.env.PORT;
 app.use(express.json());
 // PARSES ENCONDED URL DATA
 app.use(express.urlencoded({extended: true}));
+// PUBLIC DIR MIDDLEWARE
+app.use('/public', express.static('/public'));
 //MIDDLEWARE FOR DATA LOGGER
 app.use(morgan('dev'));
 
