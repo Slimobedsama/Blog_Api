@@ -1,6 +1,8 @@
 const { body, validationResult } = require('express-validator');
 const Admin = require('../model/adminModel');
+const Blog = require('../model/blogModel');
 
+// ADMIN VALIDATIONS BELOW
 const adminValidateSignup = 
 [
     body('lastName').notEmpty().withMessage('Enter Last Name'),
@@ -28,4 +30,21 @@ const adminEditValidation =
     }
 ];
 
-module.exports = { adminValidateSignup, adminEditValidation };
+// BLOG VALIDATIONS BELOW
+const createBlogValidation = 
+[
+    body('author').trim().exists({ checkFalsy: true }).withMessage('Author Name Is Required'),
+    body('title').trim().notEmpty().withMessage('Title Is Required'),
+    body('body').trim().notEmpty().withMessage('Body Is Required'),
+    (req, res, next)=> {
+        const errors = validationResult(req);
+        if(!errors.isEmpty()) return res.status(400).json({ errors: errors.array().map(err=> err.msg) });
+        return next();
+    }
+]
+
+module.exports = { 
+    adminValidateSignup, 
+    adminEditValidation, 
+    createBlogValidation 
+};
