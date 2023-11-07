@@ -5,7 +5,7 @@ const adminToken = (id)=> {
 }
 
 const userToken = (id) => {
-    return jwt.sign({id}, process.env.JWT_SECRET, {expiresIn: process.env.EXPIRES_IN});
+    return jwt.sign({ id }, process.env.JWT_SECRET, {expiresIn: process.env.EXPIRES_IN});
 }
 
 module.exports = { adminToken, userToken };

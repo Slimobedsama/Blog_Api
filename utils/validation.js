@@ -38,7 +38,10 @@ const createBlogValidation =
     body('body').trim().notEmpty().withMessage('Body Is Required'),
     (req, res, next)=> {
         const errors = validationResult(req);
-        if(!errors.isEmpty()) return res.status(400).json({ errors: errors.array().map(err=> err.msg) });
+        if(!errors.isEmpty()) { 
+            console.log(errors.array().map(err=> err.msg))
+            return res.status(400).json({ errors: errors.array().map(err=> err.msg) });
+        }
         return next();
     }
 ]
