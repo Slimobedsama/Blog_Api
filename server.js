@@ -7,6 +7,7 @@ const adminRoute = require('./routes/adminRoute');
 const blogRoute = require('./routes/blogRoute');
 const userRoute = require('./routes/userRoute');
 const commentRoute = require('./routes/commentRoute');
+const imageError = require('./middleware/errorHandling');
 
 const app = express();
 PORT = process.env.PORT;
@@ -25,6 +26,9 @@ app.use('/api/admin', adminRoute);
 app.use('/api/blogs', blogRoute);
 app.use('/api/user', userRoute);
 app.use('/api/comment', commentRoute);
+
+// ERROR HANDLING MIDDLEWARE
+app.use(imageError);
 
 db().then((result)=> app.listen(PORT, () => console.log(`Server on ${PORT}`)))
 .catch((err)=> console.log(err));
