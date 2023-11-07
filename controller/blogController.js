@@ -40,8 +40,9 @@ exports.createBlog = async(req, res) => {
 
 exports.updateBlogPost = async(req, res) => {
     const id = req.params.id
+    const { author, title, body, pics } = req.body;
     try {
-        const update = await Blog.findByIdAndUpdate(id, req.body, {new: true});
+        const update = await Blog.findByIdAndUpdate(id, { author, title, body, pics }, { new: true });
         if(!update) {
             throw new Error(`Blog with id ${id} cannot be found...`);
         }

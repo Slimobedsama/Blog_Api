@@ -31,7 +31,7 @@ const adminEditValidation =
 ];
 
 // BLOG VALIDATIONS BELOW
-const createBlogValidation = 
+const blogValidation = 
 [
     body('author').trim().exists({ checkFalsy: true }).withMessage('Author Name Is Required'),
     body('title').trim().notEmpty().withMessage('Title Is Required'),
@@ -49,5 +49,5 @@ const createBlogValidation =
 module.exports = { 
     adminValidateSignup, 
     adminEditValidation, 
-    createBlogValidation 
+    blogValidation 
 };
