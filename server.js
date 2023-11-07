@@ -14,8 +14,10 @@ PORT = process.env.PORT;
 app.use(express.json());
 // PARSES ENCONDED URL DATA
 app.use(express.urlencoded({extended: true}));
-// PUBLIC DIR MIDDLEWARE
-app.use('/public', express.static('/public'));
+/* PUBLIC DIR MIDDLEWARE 
+THE FIRST PARAMETER MUST BE THE SAME PATH WITH THE PATH ON THE IMAGE URL
+*/
+app.use('/images', express.static('public/upload'));
 //MIDDLEWARE FOR DATA LOGGER
 app.use(morgan('dev'));
 

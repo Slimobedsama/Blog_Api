@@ -26,7 +26,12 @@ exports.getSingleBlog = async(req, res) => {
 exports.createBlog = async(req, res) => {
     const { author, title, body, pics } = req.body;
     try {
-        const newBlog = await Blog.create(req.body);
+        const newBlog = await Blog.create({
+            author: req.body.author,
+            title: req.body.title,
+            body: req.body.body,
+            pics: `http://localhost:7000/images/${req.file.filename}`
+        });
         res.status(201).json({message: 'Blog Created', newBlog});
     } catch(err) {
         res.status(400).json({error: err.message});
