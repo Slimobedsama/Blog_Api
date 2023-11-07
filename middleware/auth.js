@@ -17,7 +17,7 @@ const adminAuth = (req, res, next) => {
     }
 }
 
-const auth = (req, res, next) => {
+const userAuth = (req, res, next) => {
     let token = req.headers.authorization;
     if(token) {
         jwt.verify(token, process.env.JWT_SECRET, (err, decodedToken)=> {
@@ -34,4 +34,4 @@ const auth = (req, res, next) => {
     }
 }
 
-module.exports = { adminAuth, auth };
+module.exports = { adminAuth, userAuth };
