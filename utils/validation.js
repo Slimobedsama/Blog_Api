@@ -1,5 +1,6 @@
 const { body, validationResult } = require('express-validator');
 const Admin = require('../model/adminModel');
+const User = require('../model/userModel')
 const Blog = require('../model/blogModel');
 
 // ADMIN VALIDATIONS BELOW
@@ -36,11 +37,11 @@ const userValidateSignup =
     body('firstName').notEmpty().withMessage('Enter First Name'),
     body('lastName').notEmpty().withMessage('Enter Last Name'),
     body('userName').notEmpty().withMessage('Enter A username').custom( async value=> {
-        const checkUsername = await Admin.findOne({ userName: value });
+        const checkUsername = await User.findOne({ userName: value });
         if (checkUsername) throw new Error("This username is already in use");
     }),
     body('email').isEmail().withMessage('Enter A valid email address').custom( async value=> {
-        const checkEmail = await Admin.findOne({ email: value });
+        const checkEmail = await User.findOne({ email: value });
         if (checkEmail) throw new Error("This email is already in use");
     }),
     body('password').isStrongPassword({ minLength: 6, minSymbols: 0 }).withMessage('Password must be a minimum of 6 characters and a combination of at least 1 of uppercase and lowercase'),
