@@ -14,36 +14,13 @@ exports.allUsers = async(req, res, next) => {
 }
 
 exports.signup = async(req, res, next) => {
-    const {firstName, lastName, userName, phoneNo, email, password} = req.body;
+    const {firstName, lastName, userName, email, password} = req.body;
     try {
-        // USER VALIDATIONS
-        const foundEmail = await User.findOne({email});
-        if(foundEmail) {
-            return res.json({msg: 'Email already exist'});
-        } else if(validator.isEmpty(firstName)) {
-            throw new Error('First Name is Required');
-        } else if(validator.isEmpty(lastName)) {
-            throw new Error('Last Name is Required');
-        } else if(validator.isEmpty(userName)) {
-            throw new Error('Username is Required');
-        } else if(validator.isEmpty(firstName)) {
-            throw new Error('First Name is Required');
-        } else if(!validator.isMobilePhone(phoneNo, ['en-NG', 'en-GB'])) {
-            throw new Error('Enter A Valid Mobile Number');
-        } else if(!validator.isEmail(email)) {
-            throw new Error('Enter A Valid Email Address');
-        } else if(validator.isEmpty(firstName)) {
-            throw new Error('First Name is Required');
-        } else if(!validator.isStrongPassword(password, {minLength: 6, minSymbols: 0})) {
-            throw new Error('A Minimum Of 6 Characters With At Least 1 Uppercase, 1 Lowercase & 1 Number');
-        }
-
         const hashPassword = await bcrypt.hash(password, 12);
         const newUser = await User.create({
             firstName: req.body.firstName,
             lastName: req.body.lastName,
             userName: req.body.userName,
-            phoneNo: req.body.phoneNo,
             email: req.body.email,
             password: hashPassword
         });
