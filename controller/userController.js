@@ -69,14 +69,16 @@ exports.updateUser = async(req, res, next) => {
     const id = req.params.id;
     const {firstName, lastName, userName, phoneNo} = req.body;
     try {
-        if(!firstName || !lastName || !userName || !phoneNo) {
-            return res.json({msg: 'Update the required details'})
-        } else {
-            const updateData = await User.findByIdAndUpdate(id);
-            return res.status(200).json({msg: 'Update Successful', updateData});
+        const editData = await User.findByIdAndUpdate(id, { firstName, lastName, userName, phoneNo }, { new: true });
+        if(editData) {
+            if(firstName || lastName || userName || phoneNo) {
+                return res.status(200).json({ message: 'Success', data: editData});
+            }
+            throw new Error('Enter The Required Field')
         }
+        throw new Error(`User with id ${ id } not found`)
     } catch (err) {
-        res.status(400).json({msg: 'Bad Request'});
+        res.status(400).json({errors: err.message});
     }
     next();
 }
