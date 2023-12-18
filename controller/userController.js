@@ -33,22 +33,20 @@ exports.signup = async(req, res, next) => {
 }
 
 exports.login = async(req, res, next) => {
-    const {email, userName, password} = req.body;
+    const {email, password} = req.body;
    try {
     const foundEmail = await User.findOne({email});
-    const foundUsername = await User.findOne({userName})
-    const checkUser = foundEmail || foundUsername
-    if(checkUser) {
-       const checkPassword = await bcrypt.compare(password, checkUser.password);
+    if(foundEmail) {
+       const checkPassword = await bcrypt.compare(password, foundEmail.password);
         if(checkPassword) {
-            const token = userToken(checkUser._id)
-            return res.status(200).json({msg: 'Login successfully', token, data: checkUser});
+            const token = userToken(foundEmail._id)
+            return res.status(200).json({message: 'Login successfully', token, data: foundEmail._id});
         }
-        return res.status(400).json({msg: 'Invalid password'});
+        throw new Error('Wrong Password');
     }
-    return res.status(400).json({msg: 'Invalid email or username'});
+    throw new Error('Email Not Found');
    } catch (err) {
-        res.status(400).json({msg: 'User does not exist'});
+        res.status(400).json({errors: err.message});
    }
    next();
 }
