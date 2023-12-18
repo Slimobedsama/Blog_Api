@@ -51,6 +51,17 @@ const userValidateSignup =
         return next();
     }
 ];
+const userUpdateValidation = 
+[
+    body('firstName').notEmpty().withMessage('Enter First Name'),
+    body('lastName').notEmpty().withMessage('Enter Last Name'),
+    body('userName').notEmpty().withMessage('Enter A username'),
+    (req, res, next)=> {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array().map(err=> err.msg) });
+        return next();
+    }  
+]
 
 // BLOG VALIDATIONS BELOW
 const blogValidation = 
@@ -72,5 +83,6 @@ module.exports = {
     adminValidateSignup, 
     adminEditValidation,
     userValidateSignup,
+    userUpdateValidation,
     blogValidation 
 };
