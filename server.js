@@ -1,4 +1,5 @@
 const express = require('express');
+const app = express();
 const dotenv = require('dotenv');
 dotenv.config();
 const db = require('./config/db');
@@ -9,7 +10,6 @@ const userRoute = require('./routes/userRoute');
 const commentRoute = require('./routes/commentRoute');
 const imageError = require('./middleware/errorHandling');
 
-const app = express();
 PORT = process.env.PORT;
 // PARSES JSON DATA
 app.use(express.json());
