@@ -10,6 +10,19 @@ exports.every = async(req, res)=> {
     }
 }
 
+exports.getOne = async(req, res)=> {
+    try {
+        const id = req.params.id;
+        const singleComment = await Comment.findById(id).populate('name', 'userName');
+        if(singleComment) {
+            return res.status(200).json({ message: 'Success', data: singleComment });
+        }
+        throw new Error(`Comment with the id ${id} not found`);
+    } catch (err) {
+        res.status(404).json({ errors: err.message });
+    }
+}
+
 exports.create = async(req, res)=> {
     const {name, content}= req.body;
     try {
