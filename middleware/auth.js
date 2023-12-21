@@ -30,7 +30,7 @@ const userAuth = (req, res, next) => {
             }
         })
     } else {
-        res.status(403).json({error: 'Forbidden'});
+        res.status(401).json({ error: 'Unauthorized Access' });
     }
 }
 
