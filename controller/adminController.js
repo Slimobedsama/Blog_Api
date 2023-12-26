@@ -1,6 +1,7 @@
 const Admin = require('../model/adminModel');
 const bcrypt = require("bcrypt");
 const { adminToken } = require('../utils/genToken');
+const emailer = require('../utils/mail');
 
 exports.getAll = async(req, res, next)=> {
     try {
@@ -23,6 +24,14 @@ exports.create = async(req, res, next)=> {
             password: encryptedPassword
         });
         const token = adminToken(createAdmin._id);
+        const option = {
+            from: process.env.USER,
+            to: newUser.email,
+            subject: 'Email Verification',
+            html: `<h3>Hello! ${ firstName } please verify your email with this link <a href="http://localhost:7000/api/blogs">${token}</a></h3>`,
+        }
+        await emailer(option);
+        res.cookie('jwt', token, { httpOnly: true, maxAge: 2 * 60 * 60 * 1000 });
         res.status(201).json({ message: 'Successfully Created...', token, data: createAdmin });
     } catch (err) {
         res.status(400).json({ error: err.message });
