@@ -4,6 +4,7 @@ const dotenv = require('dotenv');
 dotenv.config();
 const db = require('./config/db');
 const morgan = require('morgan');
+const cookieParser = require('cookie-parser');
 const adminRoute = require('./routes/adminRoute');
 const blogRoute = require('./routes/blogRoute');
 const userRoute = require('./routes/userRoute');
@@ -21,6 +22,7 @@ THE FIRST PARAMETER MUST BE THE SAME PATH WITH THE PATH ON THE IMAGE URL
 app.use('/images', express.static('public/upload'));
 //MIDDLEWARE FOR DATA LOGGER
 app.use(morgan('dev'));
+app.use(cookieParser());
 
 app.use('/api/admin', adminRoute);
 app.use('/api/blogs', blogRoute);

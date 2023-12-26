@@ -8,4 +8,7 @@ const userToken = (id) => {
     return jwt.sign({ id }, process.env.JWT_SECRET, {expiresIn: process.env.EXPIRES_IN});
 }
 
-module.exports = { adminToken, userToken };
+const resetToken = (email)=> {
+    return jwt.sign({ email }, process.env.LOST_KEY ,{ expiresIn: process.env.LOST_KEY_EXPIRES });
+} 
+module.exports = { adminToken, userToken, resetToken };
