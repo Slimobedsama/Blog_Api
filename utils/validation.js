@@ -61,6 +61,16 @@ const userUpdateValidation =
         if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array().map(err=> err.msg) });
         return next();
     }  
+];
+
+const resetUserPassVal = 
+[
+    body('password').isStrongPassword({ minLength: 6, minSymbols: 0 }).withMessage('Password must be a minimum of 6 characters and a combination of at least 1 of uppercase and lowercase'),
+    (req, res, next)=> {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array().map(err=> err.msg) });
+        return next();
+    }
 ]
 
 // BLOG VALIDATIONS BELOW
@@ -84,5 +94,6 @@ module.exports = {
     adminEditValidation,
     userValidateSignup,
     userUpdateValidation,
-    blogValidation 
+    blogValidation,
+    resetUserPassVal 
 };

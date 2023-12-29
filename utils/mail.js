@@ -11,8 +11,8 @@ const emailer = async(option)=> {
                 pass: process.env.USER_PASSWORD,
             },
         });
-        await transporter.sendMail(option);
-        console.log('Email Sent')
+        const details = await transporter.sendMail(option);
+        console.log(`Message Sent ${ details.messageId }`)
     } catch (err) {
         console.log(err.message);
     }
