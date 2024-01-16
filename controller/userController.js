@@ -113,8 +113,7 @@ exports.lost = async(req, res, next)=> {
             html: `<h3>Please Click On The Link For Password Reset <a href="http://localhost:7000/api/user/reset-password/${userId}">${token}</a></h3>`,
         }
         await emailer(option);
-        // console.log(option)
-        return res.status(200).json({ message: 'Success' });
+        return res.status(200).json({ message: 'Email Sent' });
     } catch (err) {
         res.status(404).json({ error: err.message });
     }
@@ -129,7 +128,7 @@ exports.retrieve = async(req, res, next)=> {
         const hashingPassword = await bcrypt.hash(password, 12);
          foundId.password = hashingPassword;
          foundId.save();
-        return res.status(201).json({ message: 'Password Reset Successful', hashingPassword });
+        return res.status(201).json({ message: 'Password Reset Successful' });
     } catch (err) {
         console.log(err)
         res.status(404).json({ error: err.message });

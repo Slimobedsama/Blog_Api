@@ -79,10 +79,24 @@ const blogValidation =
     }
 ]
 
+// PASSWORD RESET VALIDATION
+const resetPassValidate = 
+[
+    body('password').isStrongPassword({ minLength: 6, minSymbols: 0 }).withMessage('Password Must Be A Minimum Of 6 Characters, 1 Uppercase, 1 Lowercase & 1 Number'),
+    (req, res, next)=> {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array().map( error => error.msg) });
+        }
+        return next();
+    }
+];
+
 module.exports = { 
     adminValidateSignup, 
     adminEditValidation,
     userValidateSignup,
     userUpdateValidation,
-    blogValidation 
+    blogValidation,
+    resetPassValidate
 };
