@@ -9,7 +9,7 @@ Router.get('/:id', userController.getSingleUser);
 Router.post('/signup', userValidateSignup, userController.signup);
 Router.post('/login', userController.login);
 Router.post('/forgot-password', userController.lost);
-Router.post('/reset-password/:token', passwordAuth,  userController.retrieve);
+Router.post('/reset-password/:id', passwordAuth,  userController.retrieve);
 Router.patch('/:id', userUpdateValidation, userController.updateUser);
 
 
