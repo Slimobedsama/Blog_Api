@@ -35,7 +35,7 @@ const userAuth = (req, res, next) => {
 }
 
 const passwordAuth = (req, res, next) => {
-    let token = req.cookie.jwt;
+    let token = req.cookies.jwt;
     if(token) {
         jwt.verify(token, process.env.LOST_KEY, (err, decodedToken)=> {
             if(err) {

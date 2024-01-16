@@ -103,8 +103,17 @@ exports.lost = async(req, res, next)=> {
     try {
         const checkEmail = await User.findOne({ email });
         if(!checkEmail) throw new Error('Email Not Found');
+        const userId = checkEmail._id;
         const token = resetToken(checkEmail._id);
-        return res.status(200).json({ message: 'Success' });
+        res.cookie('jwt', token, { httpOnly: true, maxAge: 5 * 60 * 1000 })
+        let option = {
+            from: process.env.USER,
+            to: email,
+            subject: 'Password Reset Link',
+            html: `<h3>Please Click On The Link For Password Reset <a href="http://localhost:7000/api/user/reset-password/${userId}">${token}</a></h3>`,
+        }
+        await emailer(option);
+        return res.status(200).json({ message: 'Email Sent' });
     } catch (err) {
         res.status(404).json({ error: err.message });
     }
