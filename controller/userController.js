@@ -103,15 +103,7 @@ exports.lost = async(req, res, next)=> {
     try {
         const checkEmail = await User.findOne({ email });
         if(!checkEmail) throw new Error('Email Not Found');
-        const token = resetToken(checkEmail.email);
-        res.cookie('jwt', token, { httpOnly: true, maxAge: 5 * 60 * 100 });
-        let option = {
-            from: process.env.USER,
-            to: newUser.email,
-            subject: 'Password Reset Link',
-            html: `<h3> Please Click On The Link For Password Reset <a href="http://localhost:7000/api/user/reset-password">${token}</a></h3>`,
-        }
-        await emailer(option);
+        const token = resetToken(checkEmail._id);
         return res.status(200).json({ message: 'Success' });
     } catch (err) {
         res.status(404).json({ error: err.message });
@@ -122,7 +114,8 @@ exports.retrieve = async(req, res, next)=> {
     const id = req.params.id;
     const { password } = req.body;
     try {
-        const foundId = await User.findOne({ id });
+        const foundId = await User.findById(id);
+        if(!foundId) throw new Error('Mismatched ID');
         const hashingPassword = await bcrypt.hash(password, 12);
          foundId.password = hashingPassword;
          foundId.save();
