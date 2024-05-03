@@ -1,3 +1,4 @@
 # Blog_Api
-* The blog API primary focus is on creating a basic blog post
-* Blogs can be created, read, deleted and updated
+This Blog API outlines the functionalities and access level of blog data. The API is built using RESTful architecture which supports JSON format.   
+## User Roles  
+The Blog API focuseson two main user roles:
