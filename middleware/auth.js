@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 
 const adminAuth = (req, res, next) => {
-    const token = req.cookie.jwt;
+    const token = req.cookies.jwt;
     if(token) {
         jwt.verify(token, process.env.ADM_KEY, (err, decodedToken)=> {
             if(err) {
@@ -18,7 +18,7 @@ const adminAuth = (req, res, next) => {
 }
 
 const userAuth = (req, res, next) => {
-    let token = req.cookie.jwt;
+    let token = req.cookies.jwt;
     if(token) {
         jwt.verify(token, process.env.JWT_SECRET, (err, decodedToken)=> {
             if(err) {

@@ -1,4 +1,5 @@
 const Blog = require('../model/blogModel');
+const cloudinary = require('../utils/cloud');
 
 exports.getAllBlogs = async(req, res) => {
     try {
@@ -24,13 +25,16 @@ exports.getSingleBlog = async(req, res) => {
 }
 
 exports.createBlog = async(req, res) => {
-    const { author, title, body, pics } = req.body;
+    const { author, title, body, pics, cloudinaryId } = req.body;
     try {
+        // Upload image to Cloudinary
+        const result = await cloudinary.uploader.upload(req.file.path, { folder: 'blog_images' });
         const newBlog = await Blog.create({
             author: req.body.author,
             title: req.body.title,
             body: req.body.body,
-            pics: `http://localhost:7000/images/${req.file.filename}`
+            pics: result.secure_url,
+            cloudinaryId: result.public_id
         });
         res.status(201).json({message: 'Blog Created', newBlog});
     } catch(err) {
@@ -46,7 +50,7 @@ exports.updateBlogPost = async(req, res) => {
         if(!update) {
             throw new Error(`Blog with id ${id} cannot be found...`);
         }
-        return res.status(201).json({message: 'Blog Update Successful', update});
+        return res.status(201).json({message: 'Blog Update Successful', data: update });
     } catch(err) {
         return res.status(400).json({error: err.message});
     }
@@ -59,7 +63,7 @@ exports.removeBlog = async(req, res) => {
         if(!delBlog) {
             throw new Error(`Blog with id ${id} cannot be found...`);
         }
-        res.status(200).json({message: `Blog with the id ${id} deleted.`, delBlog});
+        res.status(200).json({message: `Blog with the id ${id} deleted.` });
     } catch(err) {
         res.status(400).json({error: err.message});
     }

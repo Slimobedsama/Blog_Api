@@ -61,6 +61,7 @@ exports.access = async(req, res, next)=> {
             const CheckPassword = await bcrypt.compare(password, checkEmail.password);
             if(CheckPassword) {
                 const token = adminToken(Admin._id);
+                res.cookie('jwt', token, { httpOnly: true, maxAge: 2 * 60 * 60 * 1000 });
                 return res.status(200).json({ message: 'Success', status: 'Logged In', token, data: checkEmail._id });
             }
             throw new Error('Incorrect Password');

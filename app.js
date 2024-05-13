@@ -18,7 +18,7 @@ app.use(express.urlencoded({extended: true}));
 /* PUBLIC DIR MIDDLEWARE 
 THE FIRST PARAMETER MUST BE THE SAME PATH WITH THE PATH ON THE IMAGE URL
 */
-app.use('/images', express.static('public/upload'));
+app.use(express.static('public'));
 //MIDDLEWARE FOR DATA LOGGER
 app.use(morgan('dev'));
 app.use(cookieParser());
