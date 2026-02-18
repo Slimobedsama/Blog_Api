@@ -1,4 +1,4 @@
-const Comment = require('../model/commentModel');
+// const Comment = require('../model/commentModel');
 
 exports.every = async(req, res)=> {
     try {

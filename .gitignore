@@ -1,2 +1,4 @@
 node_modules
 .env
+insert.admin.js
+blog.api.client.http

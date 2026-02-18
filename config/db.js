@@ -1,12 +1,13 @@
 const mongoose = require('mongoose');
+const logger = require('../logger');
 
 const db = async() => {
     try {
         mongoose.set("strictQuery", true);
         mongoose.connect(process.env.DBURI, { useNewUrlParser: true, useUnifiedTopology: true }) 
-        console.log('Database Connection Successful')
+        logger.info('Database Connection Successful')
     } catch (error) {
-        console.log(error)
+        logger.error(error)
     }
 }
 
