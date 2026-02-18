@@ -1,5 +1,5 @@
-const Blog = require('../model/blogModel');
-const cloudinary = require('../utils/cloud');
+// const Blog = require('../model/blogModel');
+const cloudinary = require('../../../utils/helpers/cloud');
 
 exports.getAllBlogs = async(req, res) => {
     try {

@@ -1,7 +1,7 @@
 const express = require('express');
 const Router = express.Router();
-const commentController = require('../controller/commentController');
-const { userAuth } = require('../middleware/auth');
+const commentController = require('../controllers/commentController');
+const { userAuth } = require('../../../utils/middleware/auth');
 
 Router.get('/', commentController.every);
 Router.get('/:id', commentController.getOne);

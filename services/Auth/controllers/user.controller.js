@@ -1,7 +1,7 @@
-const User = require('../model/userModel');
+// const User = require('../model/userModel');
 const bcrypt = require('bcrypt');
-const { userToken, resetToken } = require('../utils/genToken');
-const emailer = require('../utils/mail');
+const { userToken, resetToken } = require('../../../utils/helpers/genToken');
+const emailer = require('../../../utils/helpers/mail');
 
 exports.allUsers = async(req, res, next) => {
     try {
