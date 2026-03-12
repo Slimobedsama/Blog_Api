@@ -8,7 +8,11 @@ const userToken = (id) => {
     return jwt.sign({ id }, process.env.JWT_SECRET, {expiresIn: process.env.EXPIRES_IN});
 }
 
+const genRefreshToken = (id) => {
+    return jwt.sign({ id }, process.env.REFRESH_TOKEN, {expiresIn: process.env.REFRESH_EXPIRES_IN});
+}
+
 const resetToken = (id)=> {
     return jwt.sign({ id }, process.env.LOST_KEY ,{ expiresIn: process.env.LOST_KEY_EXPIRES });
 } 
-module.exports = { adminToken, userToken, resetToken };
+module.exports = { adminToken, userToken, resetToken, genRefreshToken };

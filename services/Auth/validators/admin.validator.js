@@ -27,7 +27,6 @@ exports.validateAdninLogin = (req, res, next) => {
         next();
         
     } catch (error) {
-        // console.log(error)
         logger.error({error})
         return res.status(500).json({ status: 500, errorcode: error.errorcode || "V500VAL", message: "An unknown error occcured", error: error });
     }

@@ -6,7 +6,7 @@ const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
 const logger = require('./logger');
 const adminRoute = require('./services/Auth/routes/admin.route');
-const blogRoute = require('./services/Blog/routes/blogRoute');
+const postRoute = require('./services/Blog/routes/post.route');
 const userRoute = require('./services/Auth/routes/user.route');
 const commentRoute = require('./services/Comment/routes/commentRoute');
 const { logicErrorHandler, imageError } = require('./utils/middleware/errorHandling');
@@ -41,7 +41,7 @@ app.use(
 app.use(cookieParser());
 
 app.use('/api/admin', adminRoute);
-app.use('/api/blogs', blogRoute);
+app.use('/api/post', postRoute);
 app.use('/api/user', userRoute);
 app.use('/api/comment', commentRoute);
 
